@@ -1,0 +1,3 @@
+<x-layouts::app :title="$title ?? null" :description="$description ?? null" :keywords="$keywords ?? null">
+    {{ $slot }}
+</x-layouts::app>
