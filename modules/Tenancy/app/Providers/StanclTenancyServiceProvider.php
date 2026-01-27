@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Tenancy\App\Providers;
 
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Stancl\JobPipeline\JobPipeline;
 use Stancl\Tenancy\Events;
@@ -15,9 +14,6 @@ use Stancl\Tenancy\Middleware;
 
 class StanclTenancyServiceProvider extends ServiceProvider
 {
-    // By default, no namespace is used to support the callable array syntax.
-    public static string $controllerNamespace = '';
-
     protected string $name = 'Tenancy';
 
     protected string $nameLower = 'tenancy';
@@ -104,7 +100,6 @@ class StanclTenancyServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->bootEvents();
-        // $this->mapRoutes();
 
         $this->makeTenancyMiddlewareHighestPriority();
     }
@@ -121,15 +116,6 @@ class StanclTenancyServiceProvider extends ServiceProvider
             }
         }
     }
-
-    // protected function mapRoutes()
-    // {
-    //     $this->app->booted(function () {
-    //         if (file_exists($file = module_path($this->name, 'routes/tenant.php'))) {
-    //             Route::namespace(static::$controllerNamespace)->group($file);
-    //         }
-    //     });
-    // }
 
     protected function makeTenancyMiddlewareHighestPriority()
     {

@@ -13,14 +13,17 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         using: function () {
-            $domains = config('tenancy.central_domains');
-            foreach ($domains as $domain) {
+            // Root: Central web routes
+            foreach (config('tenancy.central_domains') as $domain) {
                 Route::middleware('web')
                     ->domain($domain)
                     ->group(base_path('routes/web.php'));
             }
 
-            Route::middleware('web')->group(module_path('tenancy', 'routes/tenant.php'));
+            // Root: Tenant web routes
+            if (file_exists($file = base_path('routes/tenant/web.php'))) {
+                Route::middleware('web')->group($file);
+            }
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {
