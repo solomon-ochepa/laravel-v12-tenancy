@@ -19,7 +19,6 @@ class CreateTenantsTable extends Migration
             // your custom columns may go here
             $table->string('name')->index();
             $table->string('slug')->unique()->nullable();
-            $table->foreignUuid('created_by')->index();
 
             $table->json('data')->nullable();
             $table->timestamps();

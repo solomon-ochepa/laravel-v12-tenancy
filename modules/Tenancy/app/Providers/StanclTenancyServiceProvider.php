@@ -104,7 +104,7 @@ class StanclTenancyServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->bootEvents();
-        $this->mapRoutes();
+        // $this->mapRoutes();
 
         $this->makeTenancyMiddlewareHighestPriority();
     }
@@ -122,14 +122,14 @@ class StanclTenancyServiceProvider extends ServiceProvider
         }
     }
 
-    protected function mapRoutes()
-    {
-        $this->app->booted(function () {
-            if (file_exists($file = module_path($this->name, 'routes/tenant.php'))) {
-                Route::namespace(static::$controllerNamespace)->group($file);
-            }
-        });
-    }
+    // protected function mapRoutes()
+    // {
+    //     $this->app->booted(function () {
+    //         if (file_exists($file = module_path($this->name, 'routes/tenant.php'))) {
+    //             Route::namespace(static::$controllerNamespace)->group($file);
+    //         }
+    //     });
+    // }
 
     protected function makeTenancyMiddlewareHighestPriority()
     {

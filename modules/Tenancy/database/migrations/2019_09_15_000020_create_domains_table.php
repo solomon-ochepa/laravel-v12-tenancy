@@ -19,6 +19,7 @@ class CreateDomainsTable extends Migration
             $table->foreignUuid('tenant_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
