@@ -3,5 +3,5 @@
 return [
     App\Providers\AppServiceProvider::class,
     Modules\Auth\App\Providers\FortifyServiceProvider::class,
-    App\Providers\TenancyServiceProvider::class,
+    Modules\Tenancy\App\Providers\StanclTenancyServiceProvider::class,
 ];

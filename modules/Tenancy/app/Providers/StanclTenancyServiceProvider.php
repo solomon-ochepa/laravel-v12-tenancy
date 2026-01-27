@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Providers;
+namespace Modules\Tenancy\App\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
@@ -13,10 +13,14 @@ use Stancl\Tenancy\Jobs;
 use Stancl\Tenancy\Listeners;
 use Stancl\Tenancy\Middleware;
 
-class TenancyServiceProvider extends ServiceProvider
+class StanclTenancyServiceProvider extends ServiceProvider
 {
     // By default, no namespace is used to support the callable array syntax.
     public static string $controllerNamespace = '';
+
+    protected string $name = 'Tenancy';
+
+    protected string $nameLower = 'tenancy';
 
     public function events()
     {
@@ -121,9 +125,8 @@ class TenancyServiceProvider extends ServiceProvider
     protected function mapRoutes()
     {
         $this->app->booted(function () {
-            if (file_exists(base_path('routes/tenant.php'))) {
-                Route::namespace(static::$controllerNamespace)
-                    ->group(base_path('routes/tenant.php'));
+            if (file_exists($file = module_path($this->name, 'routes/tenant.php'))) {
+                Route::namespace(static::$controllerNamespace)->group($file);
             }
         });
     }
