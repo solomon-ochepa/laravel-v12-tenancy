@@ -25,6 +25,7 @@
         "plank/laravel-mediable": "^6.3",
         "solomon-ochepa/laravel-settings": "^25.11",
         "spatie/laravel-ignition": "^2.10",
+        "stancl/tenancy": "^3.9",
         "staudenmeir/eloquent-has-many-deep": "^1.21",
         "typesense/typesense-php": "^5.2"
     },
