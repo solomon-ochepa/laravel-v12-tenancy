@@ -5,7 +5,7 @@ services:
       dockerfile: deploy/Dockerfile.local
       args:
         WWWGROUP: '${WWWGROUP:-1000}'
-    container_name: laravel-v12-app
+    container_name: laravel-v12-tenancy-app
     extra_hosts:
       - 'host.docker.internal:host-gateway'
       - 'localhost.test:host-gateway'
@@ -20,14 +20,18 @@ services:
     networks:
       - shared
     depends_on:
-      - mysql
-      # - redis
-      # - typesense
-      # - rabbitmq
+      mysql:
+        condition: service_healthy
+      # redis:
+      #   condition: service_healthy
+      # typesense:
+      #   condition: service_healthy
+      # rabbitmq:
+      #   condition: service_healthy
     restart: always
 
   mysql:
-    container_name: laravel-v12-mysql
+    container_name: laravel-v12-tenancy-mysql
     image: 'mysql:8.4'
     ports:
       - '${FORWARD_DB_PORT:-3306}:3306'
@@ -53,7 +57,7 @@ services:
     restart: always
 
   # redis:
-  #   container_name: laravel-v12-redis
+  #   container_name: laravel-v12-tenancy-redis
   #   image: 'redis:alpine'
   #   ports:
   #     - '${FORWARD_REDIS_PORT:-6379}:6379'
@@ -71,7 +75,7 @@ services:
   #   restart: always
 
   # typesense:
-  #   container_name: laravel-v12-typesense
+  #   container_name: laravel-v12-tenancy-typesense
   #   image: 'typesense/typesense:27.1'
   #   ports:
   #     - '${FORWARD_TYPESENSE_PORT:-8108}:8108'
@@ -94,7 +98,7 @@ services:
   #   restart: always
 
   # rabbitmq:
-  #   container_name: laravel-v12-rabbitmq
+  #   container_name: laravel-v12-tenancy-rabbitmq
   #   image: 'rabbitmq:4-management-alpine'
   #   hostname: rabbitmq
   #   ports:
