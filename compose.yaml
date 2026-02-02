@@ -5,7 +5,7 @@ services:
       dockerfile: deploy/Dockerfile.local
       args:
         WWWGROUP: '${WWWGROUP:-1000}'
-    container_name: laravel-app
+    container_name: laravel-tenancy-app
     extra_hosts:
       - 'host.docker.internal:host-gateway'
       - 'localhost.test:host-gateway'
@@ -31,7 +31,7 @@ services:
     restart: always
 
   mysql:
-    container_name: laravel-mysql
+    container_name: laravel-tenancy-mysql
     image: 'mysql:8.4'
     ports:
       - '${FORWARD_DB_PORT:-3306}:3306'
@@ -39,8 +39,8 @@ services:
       MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ROOT_HOST: '%'
       MYSQL_DATABASE: '${DB_DATABASE}'
-      MYSQL_USER: '${DB_USERNAME}'
-      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      # MYSQL_USER: '${DB_USERNAME}'
+      # MYSQL_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     volumes:
       - 'mysql:/var/lib/mysql'
@@ -57,7 +57,7 @@ services:
     restart: always
 
   # redis:
-  #   container_name: laravel-redis
+  #   container_name: laravel-tenancy-redis
   #   image: 'redis:alpine'
   #   ports:
   #     - '${FORWARD_REDIS_PORT:-6379}:6379'
@@ -75,7 +75,7 @@ services:
   #   restart: always
 
   # typesense:
-  #   container_name: laravel-typesense
+  #   container_name: laravel-tenancy-typesense
   #   image: 'typesense/typesense:27.1'
   #   ports:
   #     - '${FORWARD_TYPESENSE_PORT:-8108}:8108'
@@ -98,7 +98,7 @@ services:
   #   restart: always
 
   # rabbitmq:
-  #   container_name: laravel-rabbitmq
+  #   container_name: laravel-tenancy-rabbitmq
   #   image: 'rabbitmq:4-management-alpine'
   #   hostname: rabbitmq
   #   ports:
