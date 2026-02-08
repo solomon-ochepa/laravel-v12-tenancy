@@ -35,7 +35,16 @@ class $CLASS$ extends ServiceProvider
      */
     protected function mapWebRoutes(): void
     {
-        Route::middleware('web')->group(module_path($this->name, '$WEB_ROUTES_PATH$'));
+        // Module: central web routes
+        $file = module_path($this->name, '/routes/web.php');
+        foreach (config('tenancy.central_domains') as $domain) {
+            Route::middleware('web')->domain($domain)->group($file);
+        }
+
+        // Module: tenant web routes
+        if (file_exists($file = module_path($this->name, '/routes/tenant/web.php'))) {
+            Route::middleware(['web', 'tenant'])->group($file);
+        }
     }
 
     /**
@@ -45,6 +54,17 @@ class $CLASS$ extends ServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-        Route::middleware('api')->prefix('api')->name('api.')->group(module_path($this->name, '$API_ROUTES_PATH$'));
+        // Module: central api routes
+        $file = module_path($this->name, '/routes/api.php');
+        if (file_exists($file)) {
+            foreach (config('tenancy.central_domains') as $domain) {
+                Route::middleware('api')->domain($domain)->prefix('api')->name('api.')->group($file);
+            }
+        }
+
+        // Module: tenant api routes
+        if (file_exists($file = module_path($this->name, '/routes/tenant/api.php'))) {
+            Route::middleware(['api', 'tenant'])->prefix('api')->name('api.')->group($file);
+        }
     }
 }

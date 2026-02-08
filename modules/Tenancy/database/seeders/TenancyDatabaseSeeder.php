@@ -11,6 +11,8 @@ class TenancyDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        $this->call([
+            TenantSeeder::class,
+        ]);
     }
 }
