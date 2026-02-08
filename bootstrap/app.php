@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             foreach (config('tenancy.central_domains', []) as $domain) {
                 Route::middleware('web')
                     ->domain($domain)
+                    ->name('central.')
                     ->group(base_path('routes/web.php'));
             }
 
