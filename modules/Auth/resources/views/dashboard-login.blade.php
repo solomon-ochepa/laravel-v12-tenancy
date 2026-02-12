@@ -1,4 +1,4 @@
-<x-layouts.guest :title="__('Login') . (($name = tenant('name')) ? ' - ' . $name : '')">
+<x-layouts.guest title="Login">
     <!-- Session Status -->
     <x-auth-session-status :status="session('status')" class="mb-4" />
 
@@ -43,6 +43,14 @@
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>
+        </div>
+
+        <div class="mt-4 border-t pt-4 text-center">
+            Don't have an account? <a
+                class="-text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                href="{{ route('register') }}">
+                {{ __('Register now - free!') }}
+            </a>
         </div>
     </form>
 </x-layouts.guest>

@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Route;
+use Modules\Auth\App\Http\Middleware\Authenticate;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomainOrSubdomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
@@ -31,6 +32,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->group('tenant', [
             InitializeTenancyByDomainOrSubdomain::class,
             PreventAccessFromCentralDomains::class,
+        ]);
+
+        $middleware->alias([
+            'auth' => Authenticate::class, // Replace the default 'auth' alias
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
