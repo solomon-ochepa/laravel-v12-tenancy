@@ -20,14 +20,10 @@ services:
     # networks:
     #   - shared
     depends_on:
-      mysql:
-        condition: service_healthy
-      # redis:
-      #   condition: service_healthy
-      # typesense:
-      #   condition: service_healthy
-      # rabbitmq:
-      #   condition: service_healthy
+      - mysql
+      # - redis
+      # - typesense
+      # - rabbitmq
     restart: always
 
   mysql:
