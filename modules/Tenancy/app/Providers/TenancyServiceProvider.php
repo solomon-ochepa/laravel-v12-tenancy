@@ -3,10 +3,15 @@
 namespace Modules\Tenancy\App\Providers;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Features\SupportFileUploads\FilePreviewController;
+use Livewire\Livewire;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use Stancl\Tenancy\Features\TenantConfig;
+use Stancl\Tenancy\Resolvers\DomainTenantResolver;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -27,6 +32,30 @@ class TenancyServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
+
+        // ################################
+        // Tenancy
+        // ################################
+        TenantConfig::$storageToConfigMap = [
+            'name' => 'app.name',
+        ];
+
+        // Livewire integration
+        Livewire::setUpdateRoute(fn ($handle) => Route::post('/livewire/update', $handle)->middleware('web', 'universal', 'with_tenancy'));
+        FilePreviewController::$middleware = ['web', 'universal', 'with_tenancy'];
+
+        // enable cache
+        DomainTenantResolver::$shouldCache = true;
+
+        // seconds, 3600 is the default value
+        DomainTenantResolver::$cacheTTL = 3600;
+
+        // specify some cache store
+        // null resolves to the default cache store
+        DomainTenantResolver::$cacheStore = 'database';
+
+        // END: Tenancy
+        // ################################
     }
 
     /**

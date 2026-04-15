@@ -1,5 +1,38 @@
 <?php
 
+if (! function_exists('route_path')) {
+    /**
+     * Get the file path of a route if it exists.
+     *
+     * Checks for the existence of a route file in the specified routes directory.
+     * Returns the full file path if found, or null if the route file does not exist.
+     *
+     * @param  string  $route  The route file name (e.g., 'web.php', 'api.php').
+     * @return string|null The file path if the route exists, null otherwise.
+     */
+    function route_path(string $route): ?string
+    {
+        return (file_exists($file = base_path("routes/{$route}"))) ? $file : null;
+    }
+}
+
+if (! function_exists('module_route_path')) {
+    /**
+     * Get the file path of a module route if it exists.
+     *
+     * Checks for the existence of a route file in the specified module's routes directory.
+     * Returns the full file path if found, or null if the route file does not exist.
+     *
+     * @param  string  $module  The name of the module.
+     * @param  string  $route  The route file name (e.g., 'web.php', 'api.php').
+     * @return string|null The file path if the route exists, null otherwise.
+     */
+    function module_route_path(string $module, string $route): ?string
+    {
+        return (file_exists($file = module_path($module, "routes/{$route}"))) ? $file : null;
+    }
+}
+
 if (! function_exists('domain')) {
     /**
      * Get the application domain with optional port.

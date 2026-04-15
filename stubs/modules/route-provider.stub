@@ -26,6 +26,11 @@ class $CLASS$ extends ServiceProvider
     {
         $this->mapApiRoutes();
         $this->mapWebRoutes();
+
+        Route::middleware('tenant')->group(function () {
+            $this->mapWebRoutes('tenant/web.php');
+            $this->mapApiRoutes('tenant/api.php');
+        });
     }
 
     /**
@@ -33,21 +38,9 @@ class $CLASS$ extends ServiceProvider
      *
      * These routes all receive session state, CSRF protection, etc.
      */
-    protected function mapWebRoutes(): void
+    protected function mapWebRoutes(?string $path = null): void
     {
-        // Module: central web routes
-        $file = module_path($this->name, '/routes/web.php');
-        foreach (config('tenancy.central_domains') as $domain) {
-            Route::middleware('web')
-                ->domain($domain)
-                ->name('central.')
-                ->group($file);
-        }
-
-        // Module: tenant web routes
-        if (file_exists($file = module_path($this->name, '/routes/tenant/web.php'))) {
-            Route::middleware(['web', 'tenant'])->group($file);
-        }
+        Route::middleware('web')->group(module_route_path($this->name, $path ?? 'web.php'));
     }
 
     /**
@@ -55,24 +48,8 @@ class $CLASS$ extends ServiceProvider
      *
      * These routes are typically stateless.
      */
-    protected function mapApiRoutes(): void
+    protected function mapApiRoutes(?string $path = null): void
     {
-        // Module: central api routes
-        $file = module_path($this->name, '/routes/api.php');
-        if (file_exists($file)) {
-            foreach (config('tenancy.central_domains') as $domain) {
-                Route::middleware('api')
-                    ->domain($domain)
-                    ->prefix('api')
-                    ->name('central.')
-                    ->name('api.')
-                    ->group($file);
-            }
-        }
-
-        // Module: tenant api routes
-        if (file_exists($file = module_path($this->name, '/routes/tenant/api.php'))) {
-            Route::middleware(['api', 'tenant'])->prefix('api')->name('api.')->group($file);
-        }
+        Route::middleware('api')->prefix('api')->name('api.')->group(module_route_path($this->name, $path ?? 'api.php'));
     }
 }
