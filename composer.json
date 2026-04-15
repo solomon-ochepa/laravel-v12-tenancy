@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.10.1",
         "mhmiton/laravel-modules-livewire": "^6.1",
         "nwidart/laravel-modules": "^12.0",
+        "spatie/laravel-permission": "^7.3",
         "stancl/tenancy": "^3.9"
     },
     "require-dev": {

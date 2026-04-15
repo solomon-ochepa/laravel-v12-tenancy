@@ -9,6 +9,8 @@
     "mcp": true,
     "sail": false,
     "skills": [
+        "laravel-best-practices",
+        "scout-development",
         "pest-testing",
         "tailwindcss-development"
     ]
